@@ -1,10 +1,6 @@
 import unittest
 import time
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 class TestSauceDemo(unittest.TestCase):
     @classmethod
@@ -13,12 +9,14 @@ class TestSauceDemo(unittest.TestCase):
         cls.driver = webdriver.Chrome()
         cls.driver.get("https://www.saucedemo.com/")
 
-        # CT001 | Login com credenciais válidas
+        # CT01 | Login com credenciais válidas
         username = cls.driver.find_element("id", "user-name")
         password = cls.driver.find_element("id", "password")
         login_button = cls.driver.find_element("id", "login-button")
+        time.sleep(2)
         username.send_keys("standard_user")
         password.send_keys("secret_sauce")
+        time.sleep(2)
         login_button.click()
 
     @classmethod
@@ -27,16 +25,14 @@ class TestSauceDemo(unittest.TestCase):
         cls.driver.quit()
 
     def test_adicionar_produto_ao_carrinho(self):
-        # CT002 | Adicionar produto ao carrinho
+        # CT02 | Adicionar produto ao carrinho
         add_to_cart_button = self.driver.find_element("xpath", "//button[text()='Add to cart']")
 
-        # Adicionar uma pausa de 2 segundos
         time.sleep(2)
         
         add_to_cart_button.click()
 
-        # Adicionar uma pausa de 5 segundos para observar o que acontece após adicionar ao carrinho
-        time.sleep(5)
+        time.sleep(3)
 
         # Verificar se o ícone do carrinho exibe o número correto de itens
         cart_icon = self.driver.find_element("class name", "shopping_cart_badge")

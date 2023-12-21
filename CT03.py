@@ -1,10 +1,6 @@
 import unittest
 import time
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
 
 class TestSauceDemo(unittest.TestCase):
     @classmethod
@@ -13,40 +9,41 @@ class TestSauceDemo(unittest.TestCase):
         cls.driver = webdriver.Chrome()
         cls.driver.get("https://www.saucedemo.com/")
 
-        # CT001 | Login com credenciais válidas
+        # CT01 | Login com credenciais válidas
         username = cls.driver.find_element("id", "user-name")
         password = cls.driver.find_element("id", "password")
         login_button = cls.driver.find_element("id", "login-button")
+        time.sleep(2)
         username.send_keys("standard_user")
         password.send_keys("secret_sauce")
+        time.sleep(2)
         login_button.click()
-        time.sleep(5)
-        # CT002 | Adicionar produto ao carrinho
+
+        time.sleep(3)
+
+        # CT02 | Adicionar produto ao carrinho
         add_to_cart_button = cls.driver.find_element("xpath", "//button[text()='Add to cart']")
-        # Adicionar uma pausa de 2 segundos
         time.sleep(2)
         add_to_cart_button.click()
-        time.sleep(5)
+        time.sleep(3)
         cart_icon = cls.driver.find_element("id", "shopping_cart_container")
         time.sleep(2)
         cart_icon.click()
-        time.sleep(5)
+        time.sleep(3)
 
     @classmethod
     def tearDownClass(cls):
-        # Fechar o navegador após todos os testes na classe
+        # Fechar o navegador após o teste
         cls.driver.quit()
 
     def test_finalizar_compra(self):
-        # CT003 | Finalizar compra
-        # (Assumindo que há produtos no carrinho. Caso contrário, adicione produtos ao carrinho primeiro)
+        # CT03 | Finalizar compra
         checkout_button = self.driver.find_element("xpath", "//button[text()='Checkout']")
         checkout_button.click()
 
-        # Adicionar uma pausa de 2 segundos para observar o que acontece após o checkout
-        time.sleep(5)
+        time.sleep(3)
 
-        # Verificar se há uma confirmação de compra bem-sucedida após o checkout
+        # Verificar se está na página "https://www.saucedemo.com/checkout-step-one.html" após o checkout
         self.assertEqual("https://www.saucedemo.com/checkout-step-one.html", self.driver.current_url)
 
 
